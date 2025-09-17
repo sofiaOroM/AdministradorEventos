@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrador de Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .menu-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 12px 20px;
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .menu-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Administrador de Eventos</h1>
+
+    <button class="menu-btn" onclick="location.href='Participantes/login.jsp'">
+        Iniciar Sesión
+    </button>
+
+    <button class="menu-btn" onclick="location.href='Participantes/register.jsp'">
+        Registrarse
+    </button>
+
+    <button class="menu-btn" onclick="location.href='Eventos/listadoEvento.jsp'">
+        Ver Congresos
+    </button>
+
+    <button class="menu-btn" onclick="location.href='Eventos/crearEvento.jsp'">
+        Crear Congreso
+    </button>
+
+    <button class="menu-btn" onclick="location.href='Actividades/listadoActividad.jsp'">
+        Ver Actividades
+    </button>
+</body>
+</html>
