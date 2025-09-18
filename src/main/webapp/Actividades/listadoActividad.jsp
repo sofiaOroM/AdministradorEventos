@@ -47,6 +47,22 @@
                             <a href="${pageContext.request.contextPath}/Actividades/editar?id=${a.id}" class="btn btn-warning btn-sm">Editar</a>
                             <a href="${pageContext.request.contextPath}/Actividades/eliminar?id=${a.id}" class="btn btn-danger btn-sm">Eliminar</a>
                         </td>
+                        <td>
+                            <c:if test="${a.tipo eq 'TALLER'}">
+                                <c:choose>
+                                    <c:when test="${usuario.pagado eq true and usuario.saldo >= a.precio}">
+                                        <form method="post" action="${pageContext.request.contextPath}/Inscripciones/inscribir">
+                                            <input type="hidden" name="usuario_id" value="${usuario.id}">
+                                            <input type="hidden" name="actividad_id" value="${a.id}">
+                                            <button type="submit" class="btn btn-sm btn-success">Inscribirse</button>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-secondary">Pago o saldo insuficiente</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -68,6 +68,34 @@
         <servlet-name>MostraCrearActividadServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.actividad.MostraCrearActividadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrarAsistenciaServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.asistencias.RegistrarAsistenciaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListarAsistenciasServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.asistencias.ListarAsistenciasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelarInscripcionServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.inscripcion.CancelarInscripcionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InscribirTallerServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.inscripcion.InscribirTallerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecargarCarteraServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.participantes.RecargarCarteraServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PagoCongresoServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.eventos.PagoCongresoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CarteraPanel</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.participantes.CarteraPanel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -135,6 +163,34 @@
     <servlet-mapping>
         <servlet-name>MostraCrearActividadServlet</servlet-name>
         <url-pattern>/MostraCrearActividadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarAsistenciaServlet</servlet-name>
+        <url-pattern>/RegistrarAsistenciaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarAsistenciasServlet</servlet-name>
+        <url-pattern>/ListarAsistenciasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelarInscripcionServlet</servlet-name>
+        <url-pattern>/CancelarInscripcionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InscribirTallerServlet</servlet-name>
+        <url-pattern>/InscribirTallerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecargarCarteraServlet</servlet-name>
+        <url-pattern>/RecargarCarteraServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PagoCongresoServlet</servlet-name>
+        <url-pattern>/PagoCongresoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarteraPanel</servlet-name>
+        <url-pattern>/CarteraPanel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
