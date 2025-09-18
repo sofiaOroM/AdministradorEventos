@@ -6,7 +6,9 @@ package com.mycompany.backend.db;
 
 import com.mycompany.backend.model.Actividad;
 import java.sql.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author sofia
@@ -29,6 +31,7 @@ public class ActividadDB {
                     a.setNombre(rs.getString("nombre"));
                     a.setDescripcion(rs.getString("descripcion"));
                     a.setTipo(rs.getString("tipo"));
+                    a.setFecha(rs.getDate("fecha").toLocalDate());
                     a.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
                     a.setHoraFin(rs.getTime("hora_fin").toLocalTime());
                     a.setSalonId(rs.getInt("salon_id"));
@@ -48,21 +51,22 @@ public class ActividadDB {
             throw new SQLException("La hora de inicio no puede ser posterior a la hora de fin.");
         }
 
-        String sql = "INSERT INTO actividad (nombre, descripcion, tipo, hora_inicio, hora_fin, salon_id, congreso_id, cupo) " +
-                     "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO actividad (nombre, descripcion, tipo, fecha, hora_inicio, hora_fin, salon_id, congreso_id, cupo) " +
+                     "VALUES (?,?,?,?,?,?,?,?,?)";
         try (Connection conn = DBConnectionSingleton.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, a.getNombre());
             ps.setString(2, a.getDescripcion());
             ps.setString(3, a.getTipo());
-            ps.setTime(4, Time.valueOf(a.getHoraInicio()));
-            ps.setTime(5, Time.valueOf(a.getHoraFin()));
-            ps.setInt(6, a.getSalonId());
-            ps.setString(7, a.getCongresoId());
+            ps.setDate(4, java.sql.Date.valueOf(a.getFecha()));
+            ps.setTime(5, Time.valueOf(a.getHoraInicio()));
+            ps.setTime(6, Time.valueOf(a.getHoraFin()));
+            ps.setInt(7, a.getSalonId());
+            ps.setString(8, a.getCongresoId());
             if ("TALLER".equalsIgnoreCase(a.getTipo())) {
-                ps.setInt(8, a.getCupo());
+                ps.setInt(9, a.getCupo());
             } else {
-                ps.setNull(8, Types.INTEGER);
+                ps.setNull(9, Types.INTEGER);
             }
             ps.executeUpdate();
         }
@@ -96,9 +100,9 @@ public class ActividadDB {
         }
     }
     
-    public boolean existeConflictoHorario(int salonId, Time inicio, Time fin, Integer excludeId) throws SQLException {
+    public boolean existeConflictoHorario(int salonId, Time inicio, Time fin, LocalDate fecha, Integer excludeId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM actividad " +
-                     "WHERE salon_id=? " +
+                     "WHERE salon_id=? AND fecha= ? " +
                      "AND ( (hora_inicio < ? AND hora_fin > ?) " +
                      "   OR (hora_inicio < ? AND hora_fin > ?) " +
                      "   OR (hora_inicio >= ? AND hora_fin <= ?) )";
@@ -110,15 +114,16 @@ public class ActividadDB {
         try (Connection conn = DBConnectionSingleton.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, salonId);
-            ps.setTime(2, fin);      // Para comparar inicio de otras
-            ps.setTime(3, inicio);
-            ps.setTime(4, inicio);   // Para comparar fin de otras
-            ps.setTime(5, fin);
-            ps.setTime(6, inicio);
-            ps.setTime(7, fin);
+            ps.setDate(2, Date.valueOf(fecha));
+            ps.setTime(3, fin);      // Para comparar inicio de otras
+            ps.setTime(4, inicio);
+            ps.setTime(5, inicio);   // Para comparar fin de otras
+            ps.setTime(6, fin);
+            ps.setTime(7, inicio);
+            ps.setTime(8, fin);
 
             if (excludeId != null) {
-                ps.setInt(8, excludeId);
+                ps.setInt(9, excludeId);
             }
 
             try (ResultSet rs = ps.executeQuery()) {

@@ -5,7 +5,9 @@
 package com.mycompany.backend.servlets.actividad;
 
 import com.mycompany.backend.db.ActividadDB;
+import com.mycompany.backend.db.CongresoDB;
 import com.mycompany.backend.model.Actividad;
+import com.mycompany.backend.model.Congreso;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
@@ -24,6 +27,8 @@ import java.time.LocalTime;
 @WebServlet("/Actividades/editar")
 public class EditarActividadServlet extends HttpServlet {
     private final ActividadDB actividadDB = new ActividadDB();
+    private final CongresoDB congresoDB = new CongresoDB();
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -79,34 +84,76 @@ public class EditarActividadServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(req.getParameter("id"));
+            String nombre = req.getParameter("nombre");
+            String descripcion = req.getParameter("descripcion");
+            String tipo = req.getParameter("tipo"); // no modificable
+            int salonId = Integer.parseInt(req.getParameter("salon_id"));
+            String congresoId = req.getParameter("congreso_id");
+            
+            LocalDate fecha = LocalDate.parse(req.getParameter("fecha"));
             Time inicio = Time.valueOf(LocalTime.parse(req.getParameter("hora_inicio")));
             Time fin = Time.valueOf(LocalTime.parse(req.getParameter("hora_fin")));
-            int salonId = Integer.parseInt(req.getParameter("salon_id"));
 
-            if (actividadDB.existeConflictoHorario(salonId, inicio, fin, id)) {
-                req.setAttribute("error", "El horario entra en conflicto con otra actividad de este salón.");
-                req.getRequestDispatcher("/Actividades/editarActividad.jsp").forward(req, resp);
+            // Validación: hora de inicio < hora de fin
+            if (inicio.after(fin)) {
+                req.setAttribute("error", "La hora de inicio no puede ser posterior a la de fin.");
+                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
                 return;
             }
 
-            Actividad a = new Actividad();
-            a.setId(Integer.parseInt(req.getParameter("id")));
-            a.setNombre(req.getParameter("nombre"));
-            a.setDescripcion(req.getParameter("descripcion"));
-            a.setHoraInicio(LocalTime.parse(req.getParameter("hora_inicio")));
-            a.setHoraFin(LocalTime.parse(req.getParameter("hora_fin")));
-            a.setSalonId(Integer.parseInt(req.getParameter("salon_id")));
-            a.setCongresoId(req.getParameter("congreso_id"));
-
-            if ("TALLER".equalsIgnoreCase(req.getParameter("tipo"))) {
-                a.setCupo(Integer.parseInt(req.getParameter("cupo")));
+            // Validación: actividad dentro de rango de fechas del congreso
+            Congreso congreso = congresoDB.encontrarPorId(congresoId);
+            if (congreso == null) {
+                req.setAttribute("error", "El congreso especificado no existe.");
+                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                return;
+            }
+            
+            if (fecha.isBefore(congreso.getFechaInicio()) || fecha.isAfter(congreso.getFechaFin())) {
+                req.setAttribute("error", "La fecha de la actividad debe estar entre "
+                        + congreso.getFechaInicio() + " y " + congreso.getFechaFin());
+                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                return;
             }
 
+            // Validación: no solapamiento (excluyendo la propia actividad)
+            if (actividadDB.existeConflictoHorario(salonId, inicio, fin, fecha, id)) {
+                req.setAttribute("error", "El horario entra en conflicto con otra actividad de este salón.");
+                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                return;
+            }
+
+            // Validación: cupo en talleres
+            int cupo = 0;
+            if ("TALLER".equalsIgnoreCase(tipo)) {
+                cupo = Integer.parseInt(req.getParameter("cupo"));
+                if (cupo <= 0) {
+                    req.setAttribute("error", "El cupo de un taller debe ser mayor que 0.");
+                    req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                    return;
+                }
+            }
+
+            // Guardar cambios
+            Actividad a = new Actividad();
+            a.setId(id);
+            a.setNombre(nombre);
+            a.setDescripcion(descripcion);
+            a.setTipo(tipo);
+            a.setFecha(fecha);
+            a.setHoraInicio(inicio.toLocalTime());
+            a.setHoraFin(fin.toLocalTime());
+            a.setSalonId(salonId);
+            a.setCongresoId(congresoId);
+            a.setCupo(cupo);
+
             actividadDB.update(a);
-            resp.sendRedirect(req.getContextPath() + "/Actividades/listar?congresoId=" + a.getCongresoId());
+
+            resp.sendRedirect(req.getContextPath() + "/Actividades/listar?congresoId=" + congresoId);
+
         } catch (SQLException e) {
             req.setAttribute("error", "Error al editar actividad: " + e.getMessage());
-            req.getRequestDispatcher("/Actividades/editarActividad.jsp").forward(req, resp);
+            req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
         }
     }
 

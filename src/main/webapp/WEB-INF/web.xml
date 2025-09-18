@@ -64,6 +64,10 @@
         <servlet-name>EliminarSalonServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.salones.EliminarSalonServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MostraCrearActividadServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.actividad.MostraCrearActividadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>EliminarSalonServlet</servlet-name>
         <url-pattern>/EliminarSalonServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MostraCrearActividadServlet</servlet-name>
+        <url-pattern>/MostraCrearActividadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

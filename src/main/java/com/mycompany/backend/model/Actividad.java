@@ -4,6 +4,7 @@
  */
 package com.mycompany.backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
@@ -14,6 +15,7 @@ public class Actividad {
     private int id;
     private String nombre;
     private String descripcion;
+    private LocalDate fecha;
     private String tipo; // ENUM: PONENCIA o TALLER
     private LocalTime horaInicio;
     private LocalTime horaFin;
@@ -37,6 +39,15 @@ public class Actividad {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+    
 
     public String getDescripcion() {
         return descripcion;

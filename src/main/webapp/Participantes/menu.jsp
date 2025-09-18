@@ -43,8 +43,8 @@
           if ("admin_congreso".equalsIgnoreCase(u.getRol()) || "admin_sistema".equalsIgnoreCase(u.getRol())) {
         %>
           <a class="btn" href="${pageContext.request.contextPath}/Eventos/crearEvento.jsp">Crear congreso</a>
-          <a class="btn" href="${pageContext.request.contextPath}/salones/listado.jsp">Gestionar salones</a>
-          <a class="btn" href="${pageContext.request.contextPath}/Actividades/crearActividad.jsp">Crear actividad</a>
+          <a class="btn" href="${pageContext.request.contextPath}/Salones/listar">Gestionar salones</a>
+          <a class="btn" href="${pageContext.request.contextPath}/Actividades/nuevo">Crear actividad</a>
           <a class="btn" href="${pageContext.request.contextPath}/asistencias/tomar.jsp">Tomar asistencias</a>
           <a class="btn" href="${pageContext.request.contextPath}/reportes/ganancias-congreso.jsp">Reporte: ganancias por congreso</a>
           <a class="btn" href="${pageContext.request.contextPath}/reportes/asistencia-actividad.jsp">Reporte: asistencia por actividad</a>

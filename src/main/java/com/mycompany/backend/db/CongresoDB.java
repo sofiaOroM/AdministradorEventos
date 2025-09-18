@@ -79,4 +79,27 @@ public class CongresoDB {
             ps.executeUpdate();
         }
     }
+    
+    public Congreso encontrarPorId(String id) throws SQLException {
+        String sql = "SELECT * FROM congreso WHERE id=?";
+        try (Connection conn = DBConnectionSingleton.getInstance().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Congreso c = new Congreso();
+                    c.setId(rs.getString("id"));
+                    c.setTitulo(rs.getString("titulo"));
+                    c.setDescripcion(rs.getString("descripcion"));
+                    c.setFechaInicio(rs.getDate("fecha_inicio").toLocalDate());
+                    c.setFechaFin(rs.getDate("fecha_fin").toLocalDate());
+                    c.setPrecio(rs.getDouble("precio"));
+                    c.setInstitucionId(rs.getInt("institucion_id"));
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
+
 }

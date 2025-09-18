@@ -1,19 +1,22 @@
-package com.mycompany.backend.servlets.actividad;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package com.mycompany.backend.servlets.actividad;
 
-import com.mycompany.backend.db.ActividadDB;
-import com.mycompany.backend.model.Actividad;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.mycompany.backend.db.CongresoDB;
+import com.mycompany.backend.db.SalonDB;
+import com.mycompany.backend.model.Congreso;
+import com.mycompany.backend.model.Salon;
+import jakarta.servlet.annotation.WebServlet;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,9 +24,11 @@ import java.util.List;
  *
  * @author sofia
  */
-@WebServlet("/Actividades/listar")
-public class ListarActividadServlet extends HttpServlet {
-    private final ActividadDB actividadDB = new ActividadDB();
+@WebServlet("/Actividades/nuevo")
+public class MostraCrearActividadServlet extends HttpServlet {
+
+    private final CongresoDB congresoDB = new CongresoDB();
+    private final SalonDB salonDB = new SalonDB();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +47,10 @@ public class ListarActividadServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListarActividadServlet</title>");            
+            out.println("<title>Servlet MostraCrearActividadServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListarActividadServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MostraCrearActividadServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,14 +68,21 @@ public class ListarActividadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String congresoId = req.getParameter("congresoId");
         try {
-            List<Actividad> lista = actividadDB.findAllByCongreso(congresoId);
-            req.setAttribute("actividades", lista);
-            req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
+            List<Congreso> congresos = congresoDB.findAll();
+            List<Salon> salones = salonDB.findAll();
+
+            req.setAttribute("congresos", congresos);
+            req.setAttribute("salones", salones);
+            
+            String error = req.getParameter("error");
+            if (error != null) {
+                req.setAttribute("error", error);
+            }
+
+            req.getRequestDispatcher("/Actividades/crearActividad.jsp").forward(req, resp);
         } catch (SQLException e) {
-            e.printStackTrace();
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute("error", "Error al cargar datos: " + e.getMessage());
             req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
         }
     }

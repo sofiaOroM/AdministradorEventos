@@ -1,10 +1,11 @@
 <%-- 
-    Document   : listado.jsp
+    Document   : listadoSalon.jsp
     Created on : 16/09/2025, 20:21:45
     Author     : sofia
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -41,7 +42,7 @@
         </tbody>
       </table>
 
-      <a href="${pageContext.request.contextPath}/Salones/crear.jsp" class="btn btn-success">Nuevo salón</a>
-      <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+      <a href="${pageContext.request.contextPath}/Salones/crearSalon.jsp" class="btn btn-success">Nuevo salón</a>
+      <a href="${pageContext.request.contextPath}/Participantes/menu.jsp" class="btn btn-secondary">Volver</a>
     </body>
 </html>

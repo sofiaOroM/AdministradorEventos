@@ -15,7 +15,7 @@ import java.util.*;
 public class SalonDB {
     public List<Salon> findAll() throws SQLException {
         List<Salon> lista = new ArrayList<>();
-        String sql = "SELECT * FROM salon";
+        String sql = "SELECT * from salon";
         try (Connection conn = DBConnectionSingleton.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
