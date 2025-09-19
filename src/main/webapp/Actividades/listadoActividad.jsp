@@ -10,13 +10,14 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Listado de Actividades</title>
+        <title>Actividades</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body class="container py-4">
+    <body class="container py-5">
 
-        <h2>Actividades del Congreso</h2>
+        <h2 class="mb-4">Actividades</h2>
 
+        <!-- Mensajes -->
         <c:if test="${not empty error}">
             <div class="alert alert-danger">${error}</div>
         </c:if>
@@ -24,11 +25,33 @@
             <div class="alert alert-success">${ok}</div>
         </c:if>
 
-        <table class="table table-bordered table-striped">
+        <!-- Barra de filtro por congreso -->
+        <form method="get" action="${pageContext.request.contextPath}/Actividades/listar" class="mb-3">
+            <label for="congresoId" class="form-label">Filtrar por congreso:</label>
+            <select name="congresoId" id="congresoId" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Todos --</option>
+                <c:forEach var="c" items="${congresos}">
+                    <option value="${c.id}" <c:if test="${c.id eq congresoSeleccionado}">selected</c:if>>
+                        ${c.titulo}
+                    </option>
+                </c:forEach>
+            </select>
+        </form>
+
+        <!-- Tabla de actividades -->
+        <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th><th>Nombre</th><th>Descripción</th><th>Tipo</th>
-                    <th>Fecha</th><th>Hora inicio</th><th>Hora fin</th><th>Salón</th><th>Cupo</th><th>Acciones</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Salón</th>
+                    <th>Cupo</th>
+                    <th>Congreso</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,28 +62,33 @@
                         <td>${a.descripcion}</td>
                         <td>${a.tipo}</td>
                         <td>${a.fecha}</td>
-                        <td>${a.horaInicio}</td>
-                        <td>${a.horaFin}</td>
+                        <td>${a.horaInicio} - ${a.horaFin}</td>
                         <td>${a.salonNombre}</td>
-                        <td><c:out value="${a.cupo}" default="-" /></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/Actividades/editar?id=${a.id}" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="${pageContext.request.contextPath}/Actividades/eliminar?id=${a.id}" class="btn btn-danger btn-sm">Eliminar</a>
+                            <c:choose>
+                                <c:when test="${a.tipo eq 'TALLER'}">${a.cupo}</c:when>
+                                <c:otherwise>-</c:otherwise>
+                            </c:choose>
                         </td>
+                        <td>${a.congresoTitulo}</td>
                         <td>
+                            <!-- Botón inscribirse SOLO si es taller -->
                             <c:if test="${a.tipo eq 'TALLER'}">
-                                <c:choose>
-                                    <c:when test="${usuario.pagado eq true and usuario.saldo >= a.precio}">
-                                        <form method="post" action="${pageContext.request.contextPath}/Inscripciones/inscribir">
-                                            <input type="hidden" name="usuario_id" value="${usuario.id}">
-                                            <input type="hidden" name="actividad_id" value="${a.id}">
-                                            <button type="submit" class="btn btn-sm btn-success">Inscribirse</button>
-                                        </form>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span class="badge bg-secondary">Pago o saldo insuficiente</span>
-                                    </c:otherwise>
-                                </c:choose>
+                                <form method="post" action="${pageContext.request.contextPath}/Talleres/inscribirse" style="display:inline">
+                                    <input type="hidden" name="actividad_id" value="${a.id}">
+                                    <button class="btn btn-primary btn-sm">Inscribirse</button>
+                                </form>
+                            </c:if>
+
+                            <!-- Acciones para administradores -->
+                            <c:if test="${usuario.rol ne 'participante'}">
+                                <a href="${pageContext.request.contextPath}/Actividades/editar?id=${a.id}" 
+                                   class="btn btn-warning btn-sm">Editar</a>
+                                    <form method="post" action="${pageContext.request.contextPath}/Actividades/eliminar" 
+                                      style="display:inline">
+                                    <input type="hidden" name="id" value="${a.id}">
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta actividad?')">Eliminar</button>
+                                </form>
                             </c:if>
                         </td>
                     </tr>
@@ -68,9 +96,12 @@
             </tbody>
         </table>
 
-        <a href="${pageContext.request.contextPath}/Actividades/nuevo" class="btn btn-success">Nueva Actividad</a>
-        <a href="${pageContext.request.contextPath}/Eventos/listar" class="btn btn-secondary">Volver a Congresos</a>
-        <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Menú Principal</a>
+        <!-- Botón crear actividad solo para administradores -->
+        <c:if test="${usuario.rol ne 'participante'}">
+            <a href="${pageContext.request.contextPath}/Actividades/nuevo" class="btn btn-success">Nueva Actividad</a>
+        </c:if>
+
+        <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+
     </body>
 </html>
-

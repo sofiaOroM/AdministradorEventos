@@ -18,10 +18,15 @@ public class ActividadDB {
 
     public List<Actividad> findAllByCongreso(String congresoId) throws SQLException {
         List<Actividad> lista = new ArrayList<>();
-        String sql = "SELECT a.*, s.nombre AS salonNombre "
+            String sql = "SELECT a.*, s.nombre AS salonNombre, c.titulo AS congresoTitulo " +
+                 "FROM actividad a " +
+                 "JOIN salon s ON a.salon_id = s.id " +
+                 "JOIN congreso c ON a.congreso_id = c.id " +
+                 "WHERE a.congreso_id=?";
+            /*String sql = "SELECT a.*, s.nombre AS salonNombre "
                 + "FROM actividad a "
                 + "JOIN salon s ON a.salon_id = s.id "
-                + "WHERE a.congreso_id=?";
+                + "WHERE a.congreso_id=?";*/
         try (Connection conn = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, congresoId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -37,6 +42,7 @@ public class ActividadDB {
                     a.setSalonId(rs.getInt("salon_id"));
                     a.setSalonNombre(rs.getString("salonNombre"));
                     a.setCongresoId(rs.getString("congreso_id"));
+                    a.setCongresoTitulo(rs.getString("congresoTitulo"));
                     a.setCupo(rs.getInt("cupo"));
                     lista.add(a);
                 }
@@ -72,8 +78,12 @@ public class ActividadDB {
 
     public List<Actividad> findAllJoinBasic() throws SQLException {
         List<Actividad> lista = new ArrayList<>();
-        String sql = "SELECT id, nombre, fecha, hora_inicio, hora_fin, congreso_id "
-                + "FROM actividad ORDER BY fecha, hora_inicio";
+        String sql = "SELECT a.*, c.titulo AS congresoTitulo " +
+                 "FROM actividad a " +
+                 "JOIN congreso c ON a.congreso_id = c.id " +
+                 "ORDER BY a.fecha, a.hora_inicio";
+        /*String sql = "SELECT id, nombre, fecha, hora_inicio, hora_fin, congreso_id "
+                + "FROM actividad ORDER BY fecha, hora_inicio";*/
         try (Connection c = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = c.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Actividad a = new Actividad();
@@ -83,6 +93,7 @@ public class ActividadDB {
                 a.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
                 a.setHoraFin(rs.getTime("hora_fin").toLocalTime());
                 a.setCongresoId(rs.getString("congreso_id"));
+                a.setCongresoTitulo(rs.getString("congresoTitulo"));
                 lista.add(a);
             }
         }

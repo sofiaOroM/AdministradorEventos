@@ -85,7 +85,7 @@ public class PagoCongresoServlet extends HttpServlet {
 
             Congreso c = congresoDB.encontrarPorId(congresoId);
             if (c == null) {
-                resp.sendRedirect(req.getContextPath() + "/Congresos/listar?error=Congreso+no+existe");
+                resp.sendRedirect(req.getContextPath() + "/Eventos/listar?error=Congreso+no+existe");
                 return;
             }
 
@@ -100,10 +100,10 @@ public class PagoCongresoServlet extends HttpServlet {
             carteraDB.descontar(usuarioId, BigDecimal.valueOf(c.getPrecio()));
             pagoDB.registrarPago(usuarioId, congresoId, BigDecimal.valueOf(c.getPrecio()));
 
-            resp.sendRedirect(req.getContextPath() + "/Congresos/listar?ok=Pago+registrado");
+            resp.sendRedirect(req.getContextPath() + "/Eventos/listar?ok=Pago+registrado");
         } catch (SQLException e) {
             req.setAttribute("error", "Error al pagar: " + e.getMessage());
-            req.getRequestDispatcher("/Cartera/panel.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Eventos/listar").forward(req, resp);
         }
     }
 

@@ -22,6 +22,7 @@ public class Actividad {
     private int salonId;
     private String salonNombre;
     private String congresoId;
+    private String congresoTitulo;
     private int cupo;
     
     public int getId() {
@@ -103,6 +104,14 @@ public class Actividad {
 
     public void setCongresoId(String congresoId) {
         this.congresoId = congresoId;
+    }
+
+    public String getCongresoTitulo() {
+        return congresoTitulo;
+    }
+
+    public void setCongresoTitulo(String congresoTitulo) {
+        this.congresoTitulo = congresoTitulo;
     }
 
     public int getCupo() {

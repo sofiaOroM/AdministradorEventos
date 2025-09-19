@@ -6,7 +6,9 @@ package com.mycompany.backend.servlets.actividad;
  */
 
 import com.mycompany.backend.db.ActividadDB;
+import com.mycompany.backend.db.CongresoDB;
 import com.mycompany.backend.model.Actividad;
+import com.mycompany.backend.model.Congreso;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,7 @@ import java.util.List;
 @WebServlet("/Actividades/listar")
 public class ListarActividadServlet extends HttpServlet {
     private final ActividadDB actividadDB = new ActividadDB();
+    private final CongresoDB congresoDB = new CongresoDB();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +66,30 @@ public class ListarActividadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String congresoId = req.getParameter("congresoId");
+              try {
+            String congresoId = req.getParameter("congresoId");
+            List<Actividad> actividades;
+
+            if (congresoId != null && !congresoId.isEmpty()) {
+                actividades = actividadDB.findAllByCongreso(congresoId);
+                req.setAttribute("congresoSeleccionado", congresoId);
+            } else {
+                actividades = actividadDB.findAllJoinBasic();
+            }
+
+            // 🔹 aquí se cargan los congresos para el combo
+            List<Congreso> congresos = congresoDB.findAll();
+            req.setAttribute("congresos", congresos);
+
+            req.setAttribute("actividades", actividades);
+            req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
+
+        } catch (SQLException e) {
+            req.setAttribute("error", "Error al cargar actividades: " + e.getMessage());
+            req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
+        }
+    }
+        /*String congresoId = req.getParameter("congresoId");
         try {
             List<Actividad> lista = actividadDB.findAllByCongreso(congresoId);
             req.setAttribute("actividades", lista);
@@ -72,8 +98,8 @@ public class ListarActividadServlet extends HttpServlet {
             e.printStackTrace();
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
-        }
-    }
+        }*/
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.

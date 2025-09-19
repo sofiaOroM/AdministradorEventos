@@ -19,6 +19,7 @@ public class Congreso {
     private double precio;
     private int institucionId;
     private String institucionNombre;
+    private boolean pagado;
 
     public String getId() {
         return id;
@@ -83,4 +84,14 @@ public class Congreso {
     public void setInstitucionNombre(String institucionNombre) {
         this.institucionNombre = institucionNombre;
     }
+
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+    
+    
 }

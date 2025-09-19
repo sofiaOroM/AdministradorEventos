@@ -5,13 +5,16 @@
 package com.mycompany.backend.servlets.eventos;
 
 import com.mycompany.backend.db.CongresoDB;
+import com.mycompany.backend.db.PagoDB;
 import com.mycompany.backend.model.Congreso;
+import com.mycompany.backend.model.Usuario;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,7 +24,9 @@ import java.util.List;
  */
 @WebServlet("/Eventos/listar")
 public class ListarCongresosServlet extends HttpServlet {
+
     private final CongresoDB congresoDB = new CongresoDB();
+    private final PagoDB pagoDB = new PagoDB();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -36,7 +41,21 @@ public class ListarCongresosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            HttpSession session = req.getSession(false);
+            if (session == null || session.getAttribute("usuario") == null) {
+                resp.sendRedirect(req.getContextPath() + "/Participantes/login?error=Debes+iniciar+sesion");
+                return;
+            }
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+
             List<Congreso> lista = congresoDB.findAll();
+
+            //verifiacr los que ya se pagaron por el ususario
+            for (Congreso c : lista) {
+                boolean pagado = pagoDB.existePagoConfirmado(usuario.getId(), c.getId());
+                c.setPagado(pagado); // necesitas agregar este campo en el modelo
+            }
+
             req.setAttribute("congresos", lista);
             req.getRequestDispatcher("/Eventos/listadoEvento.jsp").forward(req, resp);
         } catch (SQLException e) {

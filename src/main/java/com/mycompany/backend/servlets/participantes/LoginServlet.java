@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/participantes/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/Participantes/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -38,11 +38,11 @@ public class LoginServlet extends HttpServlet {
                 }
             }
             req.setAttribute("error", "Usuario o contraseña inválidos (o usuario inactivo).");
-            req.getRequestDispatcher("/participantes/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Participantes/login.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
             req.setAttribute("error", "Error en autenticación: " + e.getMessage());
-            req.getRequestDispatcher("/participantes/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Participantes/login.jsp").forward(req, resp);
         }
     }
 }

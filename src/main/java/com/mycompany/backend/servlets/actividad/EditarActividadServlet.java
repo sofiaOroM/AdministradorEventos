@@ -6,8 +6,10 @@ package com.mycompany.backend.servlets.actividad;
 
 import com.mycompany.backend.db.ActividadDB;
 import com.mycompany.backend.db.CongresoDB;
+import com.mycompany.backend.db.SalonDB;
 import com.mycompany.backend.model.Actividad;
 import com.mycompany.backend.model.Congreso;
+import com.mycompany.backend.model.Salon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  *
@@ -28,6 +31,7 @@ import java.time.LocalTime;
 public class EditarActividadServlet extends HttpServlet {
     private final ActividadDB actividadDB = new ActividadDB();
     private final CongresoDB congresoDB = new CongresoDB();
+    private final SalonDB salonDB = new SalonDB();
 
 
     /**
@@ -66,9 +70,32 @@ public class EditarActividadServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Actividad actividad = actividadDB.findById(id);
+
+        if (actividad == null) {
+            resp.sendRedirect(req.getContextPath() + "/Actividades/listar?error=Actividad+no+encontrada");
+            return;
+        }
+
+        // Cargar congresos y salones
+        List<Congreso> congresos = congresoDB.findAll();
+        List<Salon> salones = salonDB.findAll();
+
+        // Pasar datos al JSP
+        req.setAttribute("actividad", actividad);
+        req.setAttribute("congresos", congresos);
+        req.setAttribute("salones", salones);
+
+        req.getRequestDispatcher("/Actividades/editarActividad.jsp").forward(req, resp);
+
+    } catch (SQLException e) {
+        req.setAttribute("error", "Error al cargar la actividad: " + e.getMessage());
+        req.getRequestDispatcher("/Actividades/listadoActividad.jsp").forward(req, resp);
+    }
     }
 
     /**
@@ -97,29 +124,29 @@ public class EditarActividadServlet extends HttpServlet {
             // Validación: hora de inicio < hora de fin
             if (inicio.after(fin)) {
                 req.setAttribute("error", "La hora de inicio no puede ser posterior a la de fin.");
-                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                doGet(req, resp);
                 return;
             }
 
-            // Validación: actividad dentro de rango de fechas del congreso
+            // Validación: rango de fechas del congreso
             Congreso congreso = congresoDB.encontrarPorId(congresoId);
             if (congreso == null) {
                 req.setAttribute("error", "El congreso especificado no existe.");
-                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
-                return;
-            }
-            
-            if (fecha.isBefore(congreso.getFechaInicio()) || fecha.isAfter(congreso.getFechaFin())) {
-                req.setAttribute("error", "La fecha de la actividad debe estar entre "
-                        + congreso.getFechaInicio() + " y " + congreso.getFechaFin());
-                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                doGet(req, resp);
                 return;
             }
 
-            // Validación: no solapamiento (excluyendo la propia actividad)
+            if (fecha.isBefore(congreso.getFechaInicio()) || fecha.isAfter(congreso.getFechaFin())) {
+                req.setAttribute("error", "La fecha de la actividad debe estar entre "
+                        + congreso.getFechaInicio() + " y " + congreso.getFechaFin());
+                doGet(req, resp);
+                return;
+            }
+
+            // Validación: no solapamiento
             if (actividadDB.existeConflictoHorario(salonId, inicio, fin, fecha, id)) {
-                req.setAttribute("error", "El horario entra en conflicto con otra actividad de este salón.");
-                req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                req.setAttribute("error", "El horario entra en conflicto con otra actividad en este salón.");
+                doGet(req, resp);
                 return;
             }
 
@@ -129,11 +156,10 @@ public class EditarActividadServlet extends HttpServlet {
                 cupo = Integer.parseInt(req.getParameter("cupo"));
                 if (cupo <= 0) {
                     req.setAttribute("error", "El cupo de un taller debe ser mayor que 0.");
-                    req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+                    doGet(req, resp);
                     return;
                 }
             }
-
             // Guardar cambios
             Actividad a = new Actividad();
             a.setId(id);
@@ -153,7 +179,7 @@ public class EditarActividadServlet extends HttpServlet {
 
         } catch (SQLException e) {
             req.setAttribute("error", "Error al editar actividad: " + e.getMessage());
-            req.getRequestDispatcher("/actividades/editar.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Actividades/editarActividad.jsp").forward(req, resp);
         }
     }
 
