@@ -104,6 +104,30 @@
         <servlet-name>FotoUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.participantes.FotoUsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReporteGananciasServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteGananciasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReporteCongresosInstitucionServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteCongresosInstitucionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReporteParticipantesServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteParticipantesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReporteAsitenciaServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteAsitenciaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReporteReservasTallerServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteReservasTallerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReporteGananciasCongresoServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.ReporteGananciasCongresoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -207,6 +231,30 @@
     <servlet-mapping>
         <servlet-name>FotoUsuarioServlet</servlet-name>
         <url-pattern>/FotoUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteGananciasServlet</servlet-name>
+        <url-pattern>/ReporteGananciasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteCongresosInstitucionServlet</servlet-name>
+        <url-pattern>/ReporteCongresosInstitucionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteParticipantesServlet</servlet-name>
+        <url-pattern>/ReporteParticipantesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteAsitenciaServlet</servlet-name>
+        <url-pattern>/ReporteAsitenciaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteReservasTallerServlet</servlet-name>
+        <url-pattern>/ReporteReservasTallerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReporteGananciasCongresoServlet</servlet-name>
+        <url-pattern>/ReporteGananciasCongresoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
