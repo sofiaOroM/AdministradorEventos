@@ -128,6 +128,14 @@
         <servlet-name>ReporteGananciasCongresoServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.reporte.ReporteGananciasCongresoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListarUsuarioServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.ListarUsuarioServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditarUsuarioServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.EditarUsuarioServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -255,6 +263,14 @@
     <servlet-mapping>
         <servlet-name>ReporteGananciasCongresoServlet</servlet-name>
         <url-pattern>/ReporteGananciasCongresoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarUsuarioServlet</servlet-name>
+        <url-pattern>/ListarUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditarUsuarioServlet</servlet-name>
+        <url-pattern>/EditarUsuarioServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

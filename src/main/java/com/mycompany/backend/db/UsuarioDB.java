@@ -7,6 +7,8 @@ package com.mycompany.backend.db;
 import com.mycompany.backend.model.Usuario;
 import com.mycompany.backend.util.PasswordUtil;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -57,11 +59,10 @@ public class UsuarioDB {
         }
         return null;
     }
-    
-        public Usuario encontrarPorId(int id) throws SQLException {
+
+    public Usuario encontrarPorId(int id) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE id = ?";
-        try (Connection conn = DBConnectionSingleton.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -81,6 +82,25 @@ public class UsuarioDB {
             }
         }
         return null;
+    }
+
+    public List<Usuario> findAll() throws SQLException {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuario";
+        try (Connection conn = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapUsuario(rs));
+            }
+        }
+        return lista;
+    }
+
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id=?";
+        try (Connection conn = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
     }
 
     public Usuario findByEmailOrIdentificacion(String s) throws SQLException {
@@ -132,6 +152,22 @@ public class UsuarioDB {
             ps.setBytes(7, u.getFoto());
             ps.setInt(8, u.getId());
 
+            ps.executeUpdate();
+        }
+    }
+
+    public void updateAdmin(Usuario u) throws SQLException {
+        String sql = "UPDATE usuario SET nombre=?, organizacion=?, correo=?, telefono=?, identificacion=?, rol=?, activo=?, foto=? WHERE id=?";
+        try (Connection conn = DBConnectionSingleton.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, u.getNombre());
+            ps.setString(2, u.getOrganizacion());
+            ps.setString(3, u.getCorreo());
+            ps.setString(4, u.getTelefono());
+            ps.setString(5, u.getIdentificacion());
+            ps.setString(6, u.getRol()); // el admin SÍ puede cambiar esto
+            ps.setBoolean(7, u.isActivo());
+            ps.setBytes(8, u.getFoto());
+            ps.setInt(9, u.getId());
             ps.executeUpdate();
         }
     }
