@@ -73,9 +73,9 @@
             <a class="btn" href="${pageContext.request.contextPath}/Salones/listar">Gestionar salones</a>
             <a class="btn" href="${pageContext.request.contextPath}/Actividades/nuevo">Crear actividad</a>
             <a class="btn" href="${pageContext.request.contextPath}/Asistencias/registrar">Tomar asistencias</a>
-            <a class="btn" href="${pageContext.request.contextPath}/reportes/ganancias-congreso.jsp">Reporte: ganancias por congreso</a>
-            <a class="btn" href="${pageContext.request.contextPath}/reportes/asistencia-actividad.jsp">Reporte: asistencia por actividad</a>
-            <a class="btn" href="${pageContext.request.contextPath}/reportes/reservas-taller.jsp">Reporte: reservas de talleres</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/gananciasCongreso.jsp">Reporte: ganancias por congreso</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/asistencia.jsp">Reporte: asistencia por actividad</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/reservasTaller.jsp">Reporte: reservas de talleres</a>
 
             <!-- Opciones para admin_sistema -->
             <%
@@ -84,8 +84,8 @@
             %>
             <a class="btn" href="${pageContext.request.contextPath}/admin/instituciones.jsp">Administrar instituciones</a>
             <a class="btn" href="${pageContext.request.contextPath}/admin/usuarios.jsp">Administrar usuarios</a>
-            <a class="btn" href="${pageContext.request.contextPath}/reportes/ganancias-global.jsp">Reporte: ganancias globales</a>
-            <a class="btn" href="${pageContext.request.contextPath}/reportes/congresos-por-institucion.jsp">Reporte: congresos por institución</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/ganancias.jsp">Reporte: ganancias globales</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/congresosInstitucion.jsp">Reporte: congresos por institución</a>
             <%
               }
             %>
