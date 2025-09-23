@@ -17,38 +17,39 @@
     <head>
         <meta charset="UTF-8">
         <title>Menú principal</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            body{
-                font-family:Arial,sans-serif;
-                margin:24px
+            body {
+                font-family: Arial, sans-serif;
+                margin: 24px;
             }
-            .grid{
-                display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                gap:12px;
-                max-width:900px
+            header {
+                margin-bottom: 20px;
             }
-            a.btn{
-                display:block;
-                text-align:center;
-                padding:12px 16px;
-                border:1px solid #ccc;
-                border-radius:8px;
-                text-decoration:none
+            .tag {
+                background: #eee;
+                border-radius: 12px;
+                padding: 2px 8px;
+                font-size: 12px;
             }
-            a.btn:hover{
-                background:#f5f5f5
+            .section-title {
+                margin-top: 25px;
+                font-size: 18px;
+                font-weight: bold;
+                border-bottom: 2px solid #ccc;
+                padding-bottom: 4px;
             }
-            .tag{
-                display:inline-block;
-                padding:2px 8px;
-                border-radius:999px;
-                background:#eee;
-                margin-left:8px;
-                font-size:12px
+            .menu-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 12px;
+                margin-top: 12px;
             }
-            header{
-                margin-bottom:16px
+            a.btn {
+                text-align: center;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-size: 15px;
             }
         </style>
     </head>
@@ -57,39 +58,55 @@
             <h2>Bienvenido, <%= u.getNombre() %> <span class="tag"><%= u.getRol() %></span></h2>
         </header>
 
-        <div class="grid">
-            <!-- Comunes para cualquier usuario logueado -->
-            <a class="btn" href="${pageContext.request.contextPath}/Eventos/listar">Ver congresos</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Actividades/listar">Ver actividades</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Participantes/editarPerfil.jsp">Mi perfil</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Cartera/panel">Cartera Digital</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Participantes/logout">Cerrar sesión</a>
-
-            <!-- Opciones para admin_congreso -->
-            <%
-              if ("admin_congreso".equalsIgnoreCase(u.getRol()) || "admin_sistema".equalsIgnoreCase(u.getRol())) {
-            %>
-            <a class="btn" href="${pageContext.request.contextPath}/Eventos/crearEvento.jsp">Crear congreso</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Salones/listar">Gestionar salones</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Actividades/nuevo">Crear actividad</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Asistencias/registrar">Tomar asistencias</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/gananciasCongreso.jsp">Reporte: ganancias por congreso</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/asistencia.jsp">Reporte: asistencia por actividad</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/reservasTaller.jsp">Reporte: reservas de talleres</a>
-
-            <!-- Opciones para admin_sistema -->
-            <%
-            }
-            if ("admin_sistema".equalsIgnoreCase(u.getRol())) {
-            %>
-            <a class="btn" href="${pageContext.request.contextPath}/admin/instituciones.jsp">Administrar instituciones</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Admin/Usuarios/listar">Administrar usuarios</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/participantes.jsp">Reporte: Participantes</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/ganancias.jsp">Reporte: ganancias globales</a>
-            <a class="btn" href="${pageContext.request.contextPath}/Reportes/congresosInstitucion.jsp">Reporte: congresos por institución</a>
-            <%
-              }
-            %>
+        <!-- Sección común -->
+        <div class="section-title">Opciones Generales</div>
+        <div class="menu-grid">
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Eventos/listar">Ver congresos</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Actividades/listar">Ver actividades</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Participantes/editarPerfil.jsp">Mi perfil</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Cartera/panel">Cartera Digital</a>
+            <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/Participantes/logout">Cerrar sesión</a>
         </div>
+
+        <%
+          if ("admin_congreso".equalsIgnoreCase(u.getRol()) || "admin_sistema".equalsIgnoreCase(u.getRol())) {
+        %>
+        <!-- Sección administración de congresos -->
+        <div class="section-title">Administración de Congresos</div>
+        <div class="menu-grid">
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Eventos/crearEvento.jsp">Crear congreso</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Salones/listar">Gestionar salones</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Actividades/nuevo">Crear actividad</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Asistencias/registrar">Tomar asistencias</a>
+        </div>
+
+        <!-- Reportes de administrador de congreso -->
+        <div class="section-title">Reportes de Congresos</div>
+        <div class="menu-grid">
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/gananciasCongreso.jsp">Ganancias por congreso</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/asistencia.jsp">Asistencia por actividad</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/reservasTaller.jsp">Reservas de talleres</a>
+        </div>
+        <%
+          }
+          if ("admin_sistema".equalsIgnoreCase(u.getRol())) {
+        %>
+        <!-- Sección administración del sistema -->
+        <div class="section-title">Administración del Sistema</div>
+        <div class="menu-grid">
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/instituciones.jsp">Administrar instituciones</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Usuarios/listar">Administrar usuarios</a>
+        </div>
+
+        <!-- Reportes globales -->
+        <div class="section-title">Reportes Globales</div>
+        <div class="menu-grid">
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/participantes.jsp">Participantes</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/ganancias.jsp">Ganancias globales</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Reportes/congresosInstitucion.jsp">Congresos por institución</a>
+        </div>
+        <%
+          }
+        %>
     </body>
 </html>
