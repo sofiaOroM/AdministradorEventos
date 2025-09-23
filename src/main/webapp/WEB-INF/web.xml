@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-</welcome-file-list>
-
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.RegisterServlet</servlet-class>
@@ -144,6 +143,26 @@
         <servlet-name>ExportarGananciasServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.reporte.Exportacion.ExportarGananciasServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EliminarUsuarioServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.EliminarUsuarioServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListarInstitucionesServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.instituciones.ListarInstitucionesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CrearInstitucionesServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.instituciones.CrearInstitucionesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditarInstitucionServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.instituciones.EditarInstitucionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminarInstitucionServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.admin.instituciones.EliminarInstitucionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -283,6 +302,26 @@
     <servlet-mapping>
         <servlet-name>ExportarGananciasServlet</servlet-name>
         <url-pattern>/ExportarGananciasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminarUsuarioServlet</servlet-name>
+        <url-pattern>/EliminarUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarInstitucionesServlet</servlet-name>
+        <url-pattern>/ListarInstitucionesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrearInstitucionesServlet</servlet-name>
+        <url-pattern>/CrearInstitucionesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditarInstitucionServlet</servlet-name>
+        <url-pattern>/EditarInstitucionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminarInstitucionServlet</servlet-name>
+        <url-pattern>/EliminarInstitucionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

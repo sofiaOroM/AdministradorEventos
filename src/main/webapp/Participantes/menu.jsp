@@ -94,7 +94,7 @@
         <!-- Sección administración del sistema -->
         <div class="section-title">Administración del Sistema</div>
         <div class="menu-grid">
-            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/instituciones.jsp">Administrar instituciones</a>
+            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Instituciones/listar">Administrar instituciones</a>
             <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Usuarios/listar">Administrar usuarios</a>
         </div>
 

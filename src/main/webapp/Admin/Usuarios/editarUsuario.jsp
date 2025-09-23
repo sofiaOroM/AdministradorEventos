@@ -72,7 +72,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="${pageContext.request.contextPath}/Admin/usuarios/listar" class="btn btn-secondary">Cancelar</a>
+        <a href="${pageContext.request.contextPath}/Admin/Usuarios/listar" class="btn btn-secondary">Cancelar</a>
     </form>
 </body>
 </html>
