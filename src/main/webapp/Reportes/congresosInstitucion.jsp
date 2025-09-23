@@ -68,6 +68,11 @@
         </c:if>
 
         <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+        <a class="btn btn-outline-primary"
+           href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=congresosInstitucion&inicio=2025-01-01&fin=2025-12-31&institucionId=">
+            Exportar Congresos por Institución
+        </a>
     </body>
+
 </html>
 

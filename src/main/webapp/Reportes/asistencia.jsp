@@ -32,11 +32,26 @@
                         <td>${a.fecha}</td>
                         <td>${a.horaInicio} - ${a.horaFin}</td>
                         <td>${a.asistencias}</td>
+                        <td>
+                            <!-- Exportar reservas solo de este taller -->
+                            <a class="btn btn-sm btn-outline-success"
+                               href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=reservasTaller&tallerId=${a.id}">
+                                Exportar Reservas
+                            </a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
-
+        <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+        <a class="btn btn-outline-primary"
+           href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=asistencia
+           &actividadId=${param.actividadId}
+           &salonId=${param.salonId}
+           &fechaInicio=${param.fechaInicio}
+           &fechaFin=${param.fechaFin}">
+            Exportar Asistencia (HTML)
+        </a>
     </body>
 </html>
 

@@ -33,5 +33,10 @@
                 </c:forEach>
             </tbody>
         </table>
+        <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+        <a class="btn btn-sm btn-outline-success"
+           href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=reservasTaller&tallerId=${r.id}">
+            Exportar (HTML)
+        </a>
     </body>
 </html>

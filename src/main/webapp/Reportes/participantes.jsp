@@ -27,23 +27,30 @@
                 <option value="invitado">Ponente invitado</option>
             </select>
         </form>
-
         <table class="table table-striped">
             <thead>
                 <tr><th>ID</th><th>Nombre</th><th>Organización</th><th>Correo</th><th>Teléfono</th><th>Tipo</th></tr>
             </thead>
             <tbody>
-            <c:forEach var="u" items="${participantes}">
-                <tr>
-                    <td>${u.identificacion}</td>
-                    <td>${u.nombre}</td>
-                    <td>${u.organizacion}</td>
-                    <td>${u.correo}</td>
-                    <td>${u.telefono}</td>
-                    <td>${u.rol}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</body>
+                <c:forEach var="u" items="${participantes}">
+                    <tr>
+                        <td>${u.identificacion}</td>
+                        <td>${u.nombre}</td>
+                        <td>${u.organizacion}</td>
+                        <td>${u.correo}</td>
+                        <td>${u.telefono}</td>
+                        <td>${u.rol}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+
+        <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
+        <a class="btn btn-outline-primary"
+           href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=participantes
+           &congresoId=${param.congresoId}
+           &tipo=${param.tipo}">
+            Exportar Participantes (HTML)
+        </a>
+    </body>
 </html>

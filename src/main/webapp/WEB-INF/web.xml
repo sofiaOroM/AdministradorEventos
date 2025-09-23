@@ -136,6 +136,10 @@
         <servlet-name>EditarUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.backend.servlets.admin.EditarUsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExportarGananciasServlet</servlet-name>
+        <servlet-class>com.mycompany.backend.servlets.reporte.Exportacion.ExportarGananciasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -271,6 +275,10 @@
     <servlet-mapping>
         <servlet-name>EditarUsuarioServlet</servlet-name>
         <url-pattern>/EditarUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportarGananciasServlet</servlet-name>
+        <url-pattern>/ExportarGananciasServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

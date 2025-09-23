@@ -84,6 +84,7 @@
             %>
             <a class="btn" href="${pageContext.request.contextPath}/admin/instituciones.jsp">Administrar instituciones</a>
             <a class="btn" href="${pageContext.request.contextPath}/Admin/Usuarios/listar">Administrar usuarios</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Reportes/participantes.jsp">Reporte: Participantes</a>
             <a class="btn" href="${pageContext.request.contextPath}/Reportes/ganancias.jsp">Reporte: ganancias globales</a>
             <a class="btn" href="${pageContext.request.contextPath}/Reportes/congresosInstitucion.jsp">Reporte: congresos por institución</a>
             <%

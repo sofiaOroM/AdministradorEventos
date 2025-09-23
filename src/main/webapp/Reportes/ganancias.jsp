@@ -38,7 +38,6 @@
             </div>
         </form>
 
-        <!-- Resultados -->
         <c:if test="${not empty reporte}">
             <table class="table table-bordered">
                 <thead>
@@ -68,6 +67,14 @@
                     </c:forEach>
                 </tbody>
             </table>
+
+            <a class="btn btn-outline-primary"
+               href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=ganancias
+               &inicio=${param.inicio}
+               &fin=${param.fin}
+               &institucionId=${param.institucionId}">
+                Exportar Ganancias (HTML)
+            </a>
         </c:if>
 
         <c:if test="${empty reporte}">

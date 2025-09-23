@@ -34,7 +34,11 @@
                     </tr>
                 </c:forEach>
             </tbody>
+            <a class="btn btn-outline-primary"
+               href="${pageContext.request.contextPath}/Reportes/exportar/html?tipo=gananciasCongreso&inicio=${param.inicio}&fin=${param.fin}">
+                Exportar Ganancias (HTML)
+            </a>
         </table>
-
+        <a class="btn btn-outline-primary"    <a href="${pageContext.request.contextPath}/Participantes/menu" class="btn btn-secondary">Volver</a>
     </body>
 </html>
