@@ -61,7 +61,7 @@
             <!-- Comunes para cualquier usuario logueado -->
             <a class="btn" href="${pageContext.request.contextPath}/Eventos/listar">Ver congresos</a>
             <a class="btn" href="${pageContext.request.contextPath}/Actividades/listar">Ver actividades</a>
-            <a class="btn" href="${pageContext.request.contextPath}/usuarios/perfil.jsp">Mi perfil</a>
+            <a class="btn" href="${pageContext.request.contextPath}/Participantes/editarPerfil.jsp">Mi perfil</a>
             <a class="btn" href="${pageContext.request.contextPath}/Cartera/panel">Cartera Digital</a>
             <a class="btn" href="${pageContext.request.contextPath}/Participantes/logout">Cerrar sesión</a>
 

@@ -24,8 +24,6 @@ public class Usuario{
     public Usuario(){
     }
     
-    
-    // getters / setters
     public int getId(){
         return id;
     }
